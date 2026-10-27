@@ -1,0 +1,116 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/resilience-experiment-v1.schema.json",
+  "title": "Frontend Resilience Patterns Experiment Snapshot (proposed v1)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaVersion",
+    "scenarioId",
+    "seed",
+    "workloadId",
+    "side",
+    "metricsVersion",
+    "events"
+  ],
+  "properties": {
+    "schemaVersion": {
+      "const": 1
+    },
+    "scenarioId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "seed": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "workloadId": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 80
+    },
+    "side": {
+      "enum": [
+        "baseline",
+        "protected"
+      ]
+    },
+    "metricsVersion": {
+      "const": 1
+    },
+    "policy": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "events": {
+      "type": "array",
+      "maxItems": 20000,
+      "items": {
+        "$ref": "#/$defs/event"
+      }
+    },
+    "appVersion": {
+      "type": "string",
+      "maxLength": 80
+    }
+  },
+  "$defs": {
+    "event": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "schemaVersion",
+        "runId",
+        "side",
+        "atMs",
+        "sequence",
+        "kind",
+        "operationId"
+      ],
+      "properties": {
+        "schemaVersion": {
+          "const": 1
+        },
+        "runId": {
+          "type": "string",
+          "maxLength": 100
+        },
+        "side": {
+          "enum": [
+            "baseline",
+            "protected"
+          ]
+        },
+        "atMs": {
+          "type": "number",
+          "minimum": 0
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "kind": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 60
+        },
+        "operationId": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 100
+        },
+        "attemptIndex": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4
+        },
+        "details": {
+          "type": "object"
+        }
+      }
+    }
+  }
+}

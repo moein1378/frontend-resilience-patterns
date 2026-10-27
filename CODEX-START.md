@@ -1,0 +1,16 @@
+# COPY THIS INTO CODEX — PROJECT 02, PHASE 01
+
+You are implementing a **new, independent GitHub portfolio repository** from the source-faithful handoff in the current working directory. It is currently a specification and asset bundle, **not a runnable codebase**. Target project: `frontend-resilience-patterns` (project #2 of 17).
+
+Your first action: read `AGENTS.md`, `01-blueprint.md`, `02-phases.md`, `10-repository-map.md`, `11-engineering-policies.md`, `04-dependencies-and-services.md`, `03-design-tokens.md`, `05-brand-system.md`, `docs/adr/0001-implementation-clarifications.md`, `docs/implementation/00-guide.md`, `docs/implementation/01-architecture-and-layout.md`, `docs/implementation/02-scenarios-and-fixtures.md`, `docs/implementation/03-domain-and-algorithms.md`, `docs/implementation/04-transport-and-hono-contract.md`, `docs/implementation/06-ui-and-interaction.md`, `docs/implementation/08-acceptance-and-test-matrix.md`, `phases/01-v0.1.0-chaos-harness-and-failure-model.md`, `agent/TASK-BRIEF.md`, and `PREREQUISITES.md`.
+
+**Implement PHASE 01 / v0.1.0 only now.** Do not skip ahead or fake completion of later patterns. Specifically:
+
+1. Inspect current repository, Node/pnpm/Corepack, and Quasar scaffold compatibility. Set up pnpm workspace and Quasar CLI/Vite SPA with Vue 3, strict TypeScript and SCSS tokens in `apps/lab`. Use `apps/chaos-api` for Hono on Node. Add pure `packages/contracts`, `packages/failure-scenarios`, `packages/telemetry`, and a minimal `packages/resilience-core` port surface, without implementing later-phase policies.
+2. Define stable Zod-backed contracts, seeded deterministic fixtures, reproducible workload/fault schedule, clock/PRNG abstraction, transport adapter contract, baseline client, trace/metric definitions and reset semantics. Use `specs/` as proposed concrete inputs. Do not generate fake results; fixtures are explicitly labeled as simulations.
+3. Build coherent Quasar screens for `/`, `/simulator`, `/patterns`, a **clearly marked preview/shell** for Circuit Breaker Console, and enough results/timeline to show a failing and successful baseline run. Route completion of protected comparison belongs to later phases; for now no fake circuit-breaker state.
+4. Make fixture/demo work without the API or Internet. Make `pnpm dev:all` run the equivalent reference Hono chaos server and frontend; verify deterministic parity with the in-memory fixture adapter. Build the app for GitHub Pages safely (base path/hash history decision per ADR).
+5. Implement real pnpm scripts, architecture rule checks, unit + contract + integration + Playwright E2E test for a seeded failure and reset, CI verification baseline, accessibility/failure states, and initial runbooks. Fix lint, typecheck, tests, build, and E2E until `pnpm verify` passes, or document reproducible blockers with evidence.
+6. Update `agent/HANDOFF.md` with every command and result. **Do not claim tests passed unless executed.** Do not create or push a Git tag if verification fails or git permissions aren't available. No secrets, paid providers, unsupported claims, or proprietary company data.
+
+Before coding, provide a short execution plan. After coding, give an audit-friendly summary of code, tests, observed behavior, remaining risk, and whether v0.1.0 exit criteria are met.

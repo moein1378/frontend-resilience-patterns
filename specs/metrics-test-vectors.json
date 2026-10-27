@@ -1,0 +1,30 @@
+[
+  {
+    "name": "nearest_rank_p95",
+    "inputs": [
+      100,
+      200,
+      300,
+      400,
+      500
+    ],
+    "expected": 500
+  },
+  {
+    "name": "nearest_rank_p95",
+    "inputs": [],
+    "expected": null
+  },
+  {
+    "name": "retry_amplification",
+    "logicalStarted": 5,
+    "upstreamAttempts": 8,
+    "expected": 1.6
+  },
+  {
+    "name": "success_rate",
+    "logicalCompleted": 5,
+    "logicalSucceeded": 4,
+    "expected": 0.8
+  }
+]

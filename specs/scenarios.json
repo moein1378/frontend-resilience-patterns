@@ -1,0 +1,161 @@
+[
+  {
+    "schemaVersion": 1,
+    "id": "healthy-baseline",
+    "title": "Healthy reads",
+    "seed": "resilience-v1",
+    "category": "healthy",
+    "workloadId": "small-read",
+    "faultProfile": {
+      "mode": "fixed",
+      "latencyMs": 80,
+      "statusSequence": [
+        200
+      ],
+      "disconnectAttempts": [],
+      "malformedAttempts": []
+    },
+    "notes": "Proposed deterministic fixture; implement parity and contract tests before claiming working."
+  },
+  {
+    "schemaVersion": 1,
+    "id": "latency-spike",
+    "title": "Latency spike",
+    "seed": "resilience-v1",
+    "category": "latency",
+    "workloadId": "small-read",
+    "faultProfile": {
+      "mode": "sequence",
+      "latencySequenceMs": [
+        80,
+        200,
+        1000,
+        300,
+        500
+      ],
+      "statusSequence": [
+        200
+      ],
+      "disconnectAttempts": [],
+      "malformedAttempts": []
+    },
+    "notes": "Proposed deterministic fixture; implement parity and contract tests before claiming working."
+  },
+  {
+    "schemaVersion": 1,
+    "id": "intermittent-503",
+    "title": "Intermittent 503",
+    "seed": "resilience-v1",
+    "category": "status",
+    "workloadId": "small-read",
+    "faultProfile": {
+      "mode": "sequence",
+      "latencyMs": 120,
+      "statusSequence": [
+        503,
+        503,
+        200
+      ],
+      "disconnectAttempts": [],
+      "malformedAttempts": []
+    },
+    "notes": "Proposed deterministic fixture; implement parity and contract tests before claiming working."
+  },
+  {
+    "schemaVersion": 1,
+    "id": "throttled-429",
+    "title": "Rate limited 429",
+    "seed": "resilience-v1",
+    "category": "status",
+    "workloadId": "small-read",
+    "faultProfile": {
+      "mode": "sequence",
+      "latencyMs": 75,
+      "statusSequence": [
+        429,
+        200
+      ],
+      "retryAfterSeconds": 1,
+      "disconnectAttempts": [],
+      "malformedAttempts": []
+    },
+    "notes": "Proposed deterministic fixture; implement parity and contract tests before claiming working."
+  },
+  {
+    "schemaVersion": 1,
+    "id": "connection-drop",
+    "title": "Connection drop",
+    "seed": "resilience-v1",
+    "category": "disconnect",
+    "workloadId": "small-read",
+    "faultProfile": {
+      "mode": "sequence",
+      "latencyMs": 120,
+      "statusSequence": [
+        200
+      ],
+      "disconnectAttempts": [
+        0
+      ],
+      "malformedAttempts": []
+    },
+    "notes": "Proposed deterministic fixture; implement parity and contract tests before claiming working."
+  },
+  {
+    "schemaVersion": 1,
+    "id": "malformed-payload",
+    "title": "Invalid response payload",
+    "seed": "resilience-v1",
+    "category": "malformed",
+    "workloadId": "small-read",
+    "faultProfile": {
+      "mode": "sequence",
+      "latencyMs": 90,
+      "statusSequence": [
+        200
+      ],
+      "disconnectAttempts": [],
+      "malformedAttempts": [
+        0
+      ]
+    },
+    "notes": "Proposed deterministic fixture; implement parity and contract tests before claiming working."
+  },
+  {
+    "schemaVersion": 1,
+    "id": "dependency-burst",
+    "title": "Burst pressure",
+    "seed": "resilience-v1",
+    "category": "burst",
+    "workloadId": "burst-read",
+    "faultProfile": {
+      "mode": "fixed",
+      "latencyMs": 500,
+      "statusSequence": [
+        200
+      ],
+      "disconnectAttempts": [],
+      "malformedAttempts": []
+    },
+    "notes": "Proposed deterministic fixture; implement parity and contract tests before claiming working."
+  },
+  {
+    "schemaVersion": 1,
+    "id": "unsafe-mutation",
+    "title": "Unsafe mutation retry guard",
+    "seed": "resilience-v1",
+    "category": "mutation",
+    "workloadId": "unsafe-write",
+    "faultProfile": {
+      "mode": "sequence",
+      "latencyMs": 100,
+      "statusSequence": [
+        503,
+        200
+      ],
+      "disconnectAttempts": [],
+      "malformedAttempts": []
+    },
+    "notes": "Proposed deterministic fixture; implement parity and contract tests before claiming working."
+  }
+]

@@ -1,0 +1,17 @@
+node_modules/
+.pnpm-store/
+dist/
+dist-ssr/
+.quasar/
+.playwright/
+playwright-report/
+test-results/
+coverage/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+.idea/
+.vscode/
+*.local
