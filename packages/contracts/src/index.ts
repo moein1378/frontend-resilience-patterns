@@ -26,5 +26,6 @@ export type {
   Scenario,
   SuccessBody,
   TraceEvent,
+  TraceEventDraft,
   Workload,
 } from './schemas.js';

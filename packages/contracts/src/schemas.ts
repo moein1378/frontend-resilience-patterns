@@ -155,3 +155,4 @@ export type SuccessBody = z.infer<typeof SuccessBodySchema>;
 export type ProblemBody = z.infer<typeof ProblemBodySchema>;
 export type Outcome = z.infer<typeof OutcomeSchema>;
 export type TraceEvent = z.infer<typeof TraceEventSchema>;
+export type TraceEventDraft = Omit<TraceEvent, 'sequence'>;
