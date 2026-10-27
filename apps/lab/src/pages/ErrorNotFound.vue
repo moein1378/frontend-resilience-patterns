@@ -1,19 +1,18 @@
 <template>
-  <div class="fullscreen bg-blue text-white text-center q-pa-md flex flex-center">
-    <div>
-      <div style="font-size: 30vh">404</div>
-
-      <div class="text-h2" style="opacity: 0.4">Oops. Nothing here...</div>
-
-      <q-btn
-        class="q-mt-xl"
-        color="white"
-        text-color="blue"
-        unelevated
-        to="/"
-        label="Go Home"
-        no-caps
-      />
-    </div>
-  </div>
+  <q-page class="page-shell not-found">
+    <p class="eyebrow">Route unavailable</p>
+    <h1 class="page-title">404 · No experiment lives here.</h1>
+    <p class="lede">Return to the deterministic baseline or open the pattern catalog.</p>
+    <q-btn to="/" color="primary" unelevated no-caps size="lg" label="Return to overview" />
+  </q-page>
 </template>
+
+<style scoped>
+.not-found {
+  display: grid;
+  min-height: 60vh;
+  align-content: center;
+  justify-items: start;
+  gap: var(--space-4);
+}
+</style>

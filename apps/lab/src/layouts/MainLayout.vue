@@ -1,81 +1,67 @@
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
-        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
-
-        <q-toolbar-title> Quasar App </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+  <q-layout view="hHh lpR fFf" class="app-layout">
+    <q-header class="app-header">
+      <q-toolbar class="toolbar">
+        <router-link to="/" class="brand-link" aria-label="Frontend Resilience Patterns home">
+          <img src="/logo-solid.svg" width="36" height="36" alt="" />
+          <span>Frontend Resilience Patterns</span>
+        </router-link>
+        <q-space />
+        <q-badge outline color="orange" class="phase-badge">Phase 01 · Fixture</q-badge>
       </q-toolbar>
+      <nav aria-label="Primary navigation" class="nav-row">
+        <q-tabs dense align="left" active-color="orange" indicator-color="orange" no-caps>
+          <q-route-tab to="/" exact label="Overview" />
+          <q-route-tab to="/simulator" label="Simulator" />
+          <q-route-tab to="/patterns" label="Patterns" />
+        </q-tabs>
+      </nav>
     </q-header>
-
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <q-list>
-        <q-item-label header> Essential Links </q-item-label>
-
-        <EssentialLink v-for="link in linksList" :key="link.label" v-bind="link" />
-      </q-list>
-    </q-drawer>
-
-    <q-page-container>
-      <router-view />
-    </q-page-container>
+    <q-page-container><router-view /></q-page-container>
   </q-layout>
 </template>
 
-<script setup lang="ts">
-import { ref } from 'vue';
-import EssentialLink, { type EssentialLinkProps } from '@/components/EssentialLink.vue';
-
-const linksList: EssentialLinkProps[] = [
-  {
-    label: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev',
-  },
-  {
-    label: 'GitHub',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework',
-  },
-  {
-    label: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev',
-  },
-  {
-    label: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev',
-  },
-  {
-    label: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev',
-  },
-  {
-    label: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev',
-  },
-  {
-    label: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev',
-  },
-];
-
-const leftDrawerOpen = ref(false);
-
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value;
+<style scoped lang="scss">
+.app-layout {
+  min-height: 100vh;
+  background: transparent;
 }
-</script>
+.app-header {
+  border-bottom: 1px solid var(--color-border);
+  background: rgb(3 7 18 / 0.92);
+  backdrop-filter: blur(14px);
+}
+.toolbar,
+.nav-row {
+  width: min(calc(100% - 2rem), var(--content-wide));
+  margin: 0 auto;
+}
+.brand-link {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--color-text);
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-decoration: none;
+}
+.phase-badge {
+  min-height: 28px;
+  padding-inline: var(--space-3);
+}
+@media (max-width: 639px) {
+  .toolbar,
+  .nav-row {
+    width: min(calc(100% - 1rem), var(--content-wide));
+  }
+  .brand-link span {
+    max-width: 12rem;
+    font-size: 0.88rem;
+    line-height: 1.2;
+  }
+  .phase-badge {
+    display: none;
+  }
+}
+</style>

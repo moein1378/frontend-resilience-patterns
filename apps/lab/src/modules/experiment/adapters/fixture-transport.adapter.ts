@@ -10,7 +10,11 @@ export function createFixtureTransport(options: {
   return {
     async execute(input, signal): Promise<AttemptResponse> {
       const scenario = findScenario(input.scenarioId);
-      if (!scenario) throw new SyntheticTransportError('network-error', `Unknown synthetic scenario: ${input.scenarioId}`);
+      if (!scenario)
+        throw new SyntheticTransportError(
+          'network-error',
+          `Unknown synthetic scenario: ${input.scenarioId}`,
+        );
       const decision = faultFor({
         scenarioSeed: input.seed,
         scenarioId: input.scenarioId,
@@ -25,7 +29,8 @@ export function createFixtureTransport(options: {
         throw new SyntheticTransportError('network-error', 'Synthetic connection drop');
       }
       const headers: Record<string, string> = { 'content-type': 'application/json' };
-      if (decision.retryAfterSeconds !== undefined) headers['retry-after'] = String(decision.retryAfterSeconds);
+      if (decision.retryAfterSeconds !== undefined)
+        headers['retry-after'] = String(decision.retryAfterSeconds);
       if (decision.kind === 'malformed') {
         return {
           statusCode: 200,

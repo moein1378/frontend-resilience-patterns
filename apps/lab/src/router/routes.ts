@@ -6,7 +6,12 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('@/pages/IndexPage.vue') },
-      { path: 'second', component: () => import('@/pages/SecondPage.vue') },
+      { path: 'simulator', component: () => import('@/pages/SimulatorPage.vue') },
+      { path: 'patterns', component: () => import('@/pages/PatternsPage.vue') },
+      {
+        path: 'patterns/circuit-breaker/unprotected',
+        component: () => import('@/pages/CircuitBreakerPreviewPage.vue'),
+      },
     ],
   },
 

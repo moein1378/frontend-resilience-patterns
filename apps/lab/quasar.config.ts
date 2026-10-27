@@ -25,7 +25,6 @@ export default defineConfig((/* ctx */) => {
       // 'themify',
       // 'line-awesome',
 
-      'roboto-font', // optional, you are not bound to it
       'material-icons', // optional, you are not bound to it
     ],
 
@@ -48,7 +47,7 @@ export default defineConfig((/* ctx */) => {
       vueRouterMode: 'hash', // available values: 'hash', 'history'
       // vueRouterBase,
 
-      // publicPath: '/',
+      publicPath: process.env.DEMO_BASE || '/',
       // define: {},
       // defineEnv: {}
       // ignorePublicFolder: true,
@@ -81,7 +80,8 @@ export default defineConfig((/* ctx */) => {
     devServer: {
       // vueDevtools: true,
       // https: true,
-      open: true, // opens browser window automatically
+      port: 9000,
+      open: false,
     },
 
     // https://v2.quasar.dev/quasar-cli-vite/quasar-config-file#framework

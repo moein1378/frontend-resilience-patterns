@@ -5,8 +5,15 @@ const allowedHosts = new Set(['localhost', '127.0.0.1']);
 
 export function createHttpTransport(options: { baseUrl: string; fetch?: typeof fetch }): Transport {
   const baseUrl = new URL(options.baseUrl);
-  if (baseUrl.protocol !== 'http:' || !allowedHosts.has(baseUrl.hostname) || baseUrl.username || baseUrl.password) {
-    throw new TypeError('Local transport URL must be an unauthenticated http://localhost or http://127.0.0.1 URL');
+  if (
+    baseUrl.protocol !== 'http:' ||
+    !allowedHosts.has(baseUrl.hostname) ||
+    baseUrl.username ||
+    baseUrl.password
+  ) {
+    throw new TypeError(
+      'Local transport URL must be an unauthenticated http://localhost or http://127.0.0.1 URL',
+    );
   }
   const fetcher = options.fetch ?? globalThis.fetch;
   return {
@@ -17,7 +24,11 @@ export function createHttpTransport(options: { baseUrl: string; fetch?: typeof f
         body: JSON.stringify(input),
         signal,
       });
-      const body: unknown = await response.json().catch(() => ({ code: 'INVALID_JSON', message: 'Invalid JSON response', retryable: false }));
+      const body: unknown = await response.json().catch(() => ({
+        code: 'INVALID_JSON',
+        message: 'Invalid JSON response',
+        retryable: false,
+      }));
       const problem = ProblemBodySchema.safeParse(body);
       if (problem.success && problem.data.code === 'SYNTHETIC_DISCONNECT') {
         throw new SyntheticTransportError('network-error', problem.data.message);
