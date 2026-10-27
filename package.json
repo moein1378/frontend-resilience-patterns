@@ -24,6 +24,10 @@
     "verify": "pnpm format:check && pnpm lint && pnpm architecture:check && pnpm typecheck && pnpm test && pnpm test:e2e && pnpm build"
   },
   "devDependencies": {
+    "@frp/contracts": "workspace:*",
+    "@frp/failure-scenarios": "workspace:*",
+    "@frp/resilience-core": "workspace:*",
+    "@frp/telemetry": "workspace:*",
     "@eslint/js": "10.0.1",
     "@playwright/test": "1.64.1",
     "@types/node": "24.19.2",
