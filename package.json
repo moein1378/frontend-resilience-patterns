@@ -10,18 +10,20 @@
   "scripts": {
     "dev": "pnpm --filter @frp/lab dev",
     "dev:all": "concurrently -k -n api,lab -c cyan,orange \"pnpm --filter @frp/chaos-api dev\" \"pnpm --filter @frp/lab dev\"",
-    "seed": "node scripts/seed.mjs",
+    "seed": "node --experimental-strip-types --no-warnings scripts/seed.ts",
     "reset": "node scripts/reset.mjs",
     "codegen": "node scripts/codegen.mjs",
-    "format:check": "prettier --check . --ignore-path .gitignore",
-    "lint": "eslint scripts packages apps/chaos-api tests --max-warnings 0 && pnpm --filter @frp/lab lint:check",
+    "format:check": "prettier --check package.json pnpm-workspace.yaml playwright.config.ts eslint.config.mjs tsconfig.base.json tsconfig.json apps packages scripts tests .github README.md CHANGELOG.md docs/toolchain.lock.md docs/architecture docs/runbooks --ignore-path .gitignore",
+    "lint": "eslint \"{scripts,packages,apps/chaos-api,tests}/**/*.{js,mjs,ts}\" --max-warnings 0 && pnpm --filter @frp/lab lint:check",
+    "docs:check": "python3 scripts/validate-specs.py",
+    "security:check": "node scripts/check-secrets.mjs",
     "architecture:check": "node scripts/check-architecture.mjs && vitest run scripts/check-architecture.test.ts",
     "typecheck": "tsc -p tsconfig.json && pnpm --filter @frp/lab typecheck",
-    "test": "vitest run --exclude tests/e2e/**",
+    "test": "vitest run --exclude 'tests/e2e/**'",
     "test:e2e": "playwright test",
     "build": "pnpm --filter @frp/chaos-api build && pnpm --filter @frp/lab build",
     "build:demo": "DEMO_BASE=/frontend-resilience-patterns/ pnpm --filter @frp/lab build",
-    "verify": "pnpm format:check && pnpm lint && pnpm architecture:check && pnpm typecheck && pnpm test && pnpm test:e2e && pnpm build"
+    "verify": "pnpm format:check && pnpm lint && pnpm docs:check && pnpm security:check && pnpm architecture:check && pnpm typecheck && pnpm test && pnpm test:e2e && pnpm build"
   },
   "devDependencies": {
     "@frp/contracts": "workspace:*",

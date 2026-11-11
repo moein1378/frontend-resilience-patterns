@@ -8,6 +8,7 @@ const routes: RouteRecordRaw[] = [
       { path: '', component: () => import('@/pages/IndexPage.vue') },
       { path: 'simulator', component: () => import('@/pages/SimulatorPage.vue') },
       { path: 'patterns', component: () => import('@/pages/PatternsPage.vue') },
+      { path: 'retry-lab', component: () => import('@/pages/RetryLabPage.vue') },
       {
         path: 'patterns/circuit-breaker/unprotected',
         component: () => import('@/pages/CircuitBreakerPreviewPage.vue'),

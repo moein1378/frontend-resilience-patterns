@@ -1,4 +1,10 @@
 node_modules/
+blue-print/
+.agents/
+.codex/
+.aws/
+.superpowers/
+/docs/superpowers/
 .pnpm-store/
 dist/
 dist-ssr/

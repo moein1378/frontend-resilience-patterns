@@ -1,4 +1,8 @@
-import type { AttemptRequest, AttemptResponse, TraceEventDraft } from '@frp/contracts';
+import type {
+  AttemptRequest,
+  AttemptResponse,
+  TraceEventDraft,
+} from "@frp/contracts";
 
 export interface Transport {
   execute(input: AttemptRequest, signal: AbortSignal): Promise<AttemptResponse>;
@@ -10,10 +14,10 @@ export interface TelemetrySink {
 
 export class SyntheticTransportError extends Error {
   constructor(
-    readonly outcome: 'network-error' | 'timeout',
+    readonly outcome: "network-error" | "timeout",
     message: string,
   ) {
     super(message);
-    this.name = 'SyntheticTransportError';
+    this.name = "SyntheticTransportError";
   }
 }

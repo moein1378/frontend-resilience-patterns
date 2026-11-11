@@ -1,7 +1,12 @@
-import { describe, expect, it } from 'vitest';
-import type { AttemptResponse, TraceEventDraft } from '@frp/contracts';
-import { runBaseline, SyntheticTransportError } from './run-baseline.js';
-import type { BaselineRunInput, Clock, TelemetrySink, Transport } from '../index.js';
+import { describe, expect, it } from "vitest";
+import type { AttemptResponse, TraceEventDraft } from "@frp/contracts";
+import { runBaseline, SyntheticTransportError } from "./run-baseline.js";
+import type {
+  BaselineRunInput,
+  Clock,
+  TelemetrySink,
+  Transport,
+} from "../index.js";
 
 class ImmediateClock implements Clock {
   #now = 0;
@@ -11,24 +16,27 @@ class ImmediateClock implements Clock {
   }
 
   async sleep(delayMs: number, signal?: AbortSignal): Promise<void> {
-    if (signal?.aborted) throw new DOMException('Aborted', 'AbortError');
+    if (signal?.aborted) throw new DOMException("Aborted", "AbortError");
     this.#now += delayMs;
   }
 }
 
 function input(operationCount = 1): BaselineRunInput {
   return {
-    runId: 'run-a',
-    scenarioId: 'scenario-a',
-    seed: 'resilience-v1',
-    operations: Array.from({ length: operationCount }, (_, operationOrdinal) => ({
-      operationId: `read-00${operationOrdinal + 1}`,
-      operationOrdinal,
-      arrivalAtMs: operationOrdinal * 10,
-      endpoint: 'catalog',
-      classification: 'read',
-      logicalMethod: 'GET',
-    })),
+    runId: "run-a",
+    scenarioId: "scenario-a",
+    seed: "resilience-v1",
+    operations: Array.from(
+      { length: operationCount },
+      (_, operationOrdinal) => ({
+        operationId: `read-00${operationOrdinal + 1}`,
+        operationOrdinal,
+        arrivalAtMs: operationOrdinal * 10,
+        endpoint: "catalog",
+        classification: "read",
+        logicalMethod: "GET",
+      }),
+    ),
   };
 }
 
@@ -40,11 +48,11 @@ function success(body: unknown = undefined): AttemptResponse {
       body ??
       ({
         schemaVersion: 1,
-        operationId: 'read-001',
+        operationId: "read-001",
         attemptIndex: 0,
-        syntheticData: { itemId: 'item-1', label: 'Synthetic catalog item' },
+        syntheticData: { itemId: "item-1", label: "Synthetic catalog item" },
         generatedAtOffsetMs: 80,
-        source: 'fixture',
+        source: "fixture",
       } satisfies unknown),
   };
 }
@@ -53,8 +61,8 @@ function telemetry(events: TraceEventDraft[]): TelemetrySink {
   return { emit: (event) => events.push(event) };
 }
 
-describe('Phase 01 baseline runner', () => {
-  it('classifies a validated 2xx payload as logical success', async () => {
+describe("Phase 01 baseline runner", () => {
+  it("classifies a validated 2xx payload as logical success", async () => {
     const events: TraceEventDraft[] = [];
     const transport: Transport = { execute: async () => success() };
     const snapshot = await runBaseline(input(), {
@@ -63,34 +71,55 @@ describe('Phase 01 baseline runner', () => {
       telemetry: telemetry(events),
       signal: new AbortController().signal,
     });
-    expect(snapshot.operations).toMatchObject([{ outcome: 'success', statusCode: 200, attemptCount: 1 }]);
-    expect(events.map(({ kind }) => kind)).toContain('attempt-started');
+    expect(snapshot.operations).toMatchObject([
+      { outcome: "success", statusCode: 200, attemptCount: 1 },
+    ]);
+    expect(events.map(({ kind }) => kind)).toContain("attempt-started");
   });
 
-  it('classifies 503, disconnect, malformed 200, and abort distinctly', async () => {
+  it("classifies 503, disconnect, malformed 200, and abort distinctly", async () => {
     const cases: Array<[string, Transport, AbortSignal, string]> = [
       [
-        '503',
-        { execute: async () => ({ statusCode: 503, headers: {}, body: { code: 'SYNTHETIC_503' } }) },
+        "503",
+        {
+          execute: async () => ({
+            statusCode: 503,
+            headers: {},
+            body: { code: "SYNTHETIC_503" },
+          }),
+        },
         new AbortController().signal,
-        'http-5xx',
+        "http-5xx",
       ],
       [
-        'disconnect',
-        { execute: async () => Promise.reject(new SyntheticTransportError('network-error', 'Synthetic disconnect')) },
+        "disconnect",
+        {
+          execute: async () =>
+            Promise.reject(
+              new SyntheticTransportError(
+                "network-error",
+                "Synthetic disconnect",
+              ),
+            ),
+        },
         new AbortController().signal,
-        'network-error',
+        "network-error",
       ],
-      ['malformed', { execute: async () => success({ wrong: true }) }, new AbortController().signal, 'invalid-payload'],
       [
-        'abort',
+        "malformed",
+        { execute: async () => success({ wrong: true }) },
+        new AbortController().signal,
+        "invalid-payload",
+      ],
+      [
+        "abort",
         { execute: async () => success() },
         (() => {
           const controller = new AbortController();
           controller.abort();
           return controller.signal;
         })(),
-        'abort',
+        "abort",
       ],
     ];
     for (const [, transport, signal, outcome] of cases) {
@@ -104,7 +133,7 @@ describe('Phase 01 baseline runner', () => {
     }
   });
 
-  it('starts exactly one physical attempt per Phase 01 operation', async () => {
+  it("starts exactly one physical attempt per Phase 01 operation", async () => {
     let attempts = 0;
     const snapshot = await runBaseline(input(3), {
       clock: new ImmediateClock(),
@@ -115,9 +144,12 @@ describe('Phase 01 baseline runner', () => {
             schemaVersion: 1,
             operationId: request.operationId,
             attemptIndex: 0,
-            syntheticData: { itemId: `item-${attempts}`, label: 'Synthetic catalog item' },
+            syntheticData: {
+              itemId: `item-${attempts}`,
+              label: "Synthetic catalog item",
+            },
             generatedAtOffsetMs: 10,
-            source: 'fixture',
+            source: "fixture",
           });
         },
       },
@@ -125,10 +157,12 @@ describe('Phase 01 baseline runner', () => {
       signal: new AbortController().signal,
     });
     expect(attempts).toBe(3);
-    expect(snapshot.operations.map(({ attemptCount }) => attemptCount)).toEqual([1, 1, 1]);
+    expect(snapshot.operations.map(({ attemptCount }) => attemptCount)).toEqual(
+      [1, 1, 1],
+    );
   });
 
-  it('does not record an upstream attempt when cancellation happens before admission', async () => {
+  it("does not record an upstream attempt when cancellation happens before admission", async () => {
     const controller = new AbortController();
     controller.abort();
     const events: TraceEventDraft[] = [];
@@ -138,7 +172,9 @@ describe('Phase 01 baseline runner', () => {
       telemetry: telemetry(events),
       signal: controller.signal,
     });
-    expect(events.filter(({ kind }) => kind.startsWith('attempt-'))).toEqual([]);
+    expect(events.filter(({ kind }) => kind.startsWith("attempt-"))).toEqual(
+      [],
+    );
     expect(snapshot.operations[0]?.attemptCount).toBe(0);
   });
 });

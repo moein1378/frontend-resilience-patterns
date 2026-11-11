@@ -1,19 +1,24 @@
+<script setup lang="ts">
+const logoUrl = `${import.meta.env.BASE_URL}logo-solid.svg`;
+</script>
+
 <template>
   <q-layout view="hHh lpR fFf" class="app-layout">
     <q-header class="app-header">
       <q-toolbar class="toolbar">
         <router-link to="/" class="brand-link" aria-label="Frontend Resilience Patterns home">
-          <img src="/logo-solid.svg" width="36" height="36" alt="" />
+          <img :src="logoUrl" width="36" height="36" alt="" />
           <span>Frontend Resilience Patterns</span>
         </router-link>
         <q-space />
-        <q-badge outline color="orange" class="phase-badge">Phase 01 · Fixture</q-badge>
+        <q-badge outline color="orange" class="phase-badge">Phase 02 · Retry discipline</q-badge>
       </q-toolbar>
       <nav aria-label="Primary navigation" class="nav-row">
         <q-tabs dense align="left" active-color="orange" indicator-color="orange" no-caps>
           <q-route-tab to="/" exact label="Overview" />
           <q-route-tab to="/simulator" label="Simulator" />
           <q-route-tab to="/patterns" label="Patterns" />
+          <q-route-tab to="/retry-lab" label="Retry Lab" />
         </q-tabs>
       </nav>
     </q-header>

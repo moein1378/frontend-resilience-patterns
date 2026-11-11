@@ -1,18 +1,37 @@
 <div align="center">
   <img src="./brand/logo-filled.svg" alt="Frontend Resilience Patterns logo" width="88" />
   <h1>Frontend Resilience Patterns</h1>
-  <p><strong>Codex implementation handoff · Portfolio project 02 / 17</strong></p>
+  <p><strong>A visual lab for resilient frontend systems</strong></p>
+  <p><a href="https://moein1378.github.io/frontend-resilience-patterns/"><strong>Open the live demo →</strong></a> · <a href="https://github.com/moein1378/frontend-resilience-patterns/actions/workflows/ci.yml">CI and deployment status</a></p>
 </div>
 
-**A visual lab for client-side failures, recovery policies, and their trade-offs.** Reproduce the same seeded workload against unprotected and protected request paths. Inspect attempts, user-visible outcomes, state changes, and timeline evidence.
+Explore client-side failures, recovery policies, and their trade-offs by running the same seeded workload against unprotected and protected request paths. Inspect attempts, user-visible outcomes, state changes, and timeline evidence.
 
-**STATUS: specification / handoff, not yet an implemented or verified app.** Do not claim a passing build or a working public demo until Codex implements and tests it.
+The demo runs in your browser using fixtures, with no backend setup. Every push to `main` runs verification and publishes the demo after the checks pass. See the [demo deployment guide](docs/runbooks/live-demo.md) for the one-time GitHub Pages setup.
 
-- [Start Codex with this prompt](CODEX-START.md) · [Continue subsequent phases](CODEX-CONTINUE.md) · [راهنمای فارسی](README-HANDOFF-FA.md) · [گزارش تحلیل](AUDIT-REPORT-FA.md)
-- [Original product blueprint](01-blueprint.md) · [Original release phases](02-phases.md) · [Implementation guidance](docs/implementation/00-guide.md)
-- [Architecture](10-repository-map.md) · [Executable contract proposals](docs/implementation/03-domain-and-algorithms.md) · [Acceptance matrix](docs/implementation/08-acceptance-and-test-matrix.md)
-- [Design tokens](03-design-tokens.md) · [Original brand assets](brand/) · [Environment/setup](PREREQUISITES.md)
+## Development
 
-**Authoritative stack (source):** Quasar CLI + Vite SPA, Vue 3, TypeScript, SCSS semantic tokens; a local Hono chaos API. Demo mode is static and deterministic, deployed to GitHub Pages. No paid services, employer data, or live hosted backend are required.
+Requires Node.js 24+ and pnpm 11.
 
-**Important:** The original source documents are preserved. Implementation-level clarifications are called out in [ADR-0001](docs/adr/0001-implementation-clarifications.md); implementation must be done one tagged phase at a time.
+```bash
+pnpm install
+pnpm dev:all
+```
+
+Use `pnpm dev` for the fixture-backed lab only, or `pnpm dev:all` to run both the Hono chaos API and the Quasar/Vue lab.
+
+## Validation
+
+```bash
+pnpm verify
+```
+
+Architecture notes and operational runbooks live in [`docs`](docs/).
+
+## Current phase
+
+Phase 02 — Timeouts and Retry Discipline is implemented. Open **Retry and Jitter Lab** (`/#/retry-lab`) to compare a single attempt, synchronized retries, and seeded full jitter. Configure a shared deadline and bounded retry policy, inspect attempt traces, or export the comparison JSON. Select **Synchronized retry storm** for ten simultaneous reads against persistent 503 failures.
+
+Only safe GET reads retry; mutations remain single-attempt. Phone view supports replay. Fixture mode requires no API. Local mode uses `pnpm dev:all`. Circuit-breaker behavior starts in Phase 03.
+
+Policy bounds, cancellation semantics, Retry-After support, metric definitions, and timing limitations are documented in [retry policy architecture](docs/architecture/retry-policy.md). The local `blue-print/` source folder is intentionally ignored by Git.

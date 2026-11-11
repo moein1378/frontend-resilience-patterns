@@ -157,5 +157,23 @@
       "malformedAttempts": []
     },
     "notes": "Proposed deterministic fixture; implement parity and contract tests before claiming working."
+  },
+  {
+    "schemaVersion": 1,
+    "id": "retry-storm",
+    "title": "Synchronized retry storm",
+    "seed": "resilience-v1",
+    "category": "burst",
+    "workloadId": "burst-read",
+    "faultProfile": {
+      "mode": "fixed",
+      "latencyMs": 120,
+      "statusSequence": [
+        503
+      ],
+      "disconnectAttempts": [],
+      "malformedAttempts": []
+    },
+    "notes": "Ten simultaneous reads against persistent 503: compare aligned exponential retries with seeded full jitter. Jitter spreads attempts but does not repair an unavailable service."
   }
 ]

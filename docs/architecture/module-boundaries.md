@@ -1,3 +1,3 @@
-# Module boundaries (planned implementation)
+# Module boundaries
 
-See [`docs/implementation/01-architecture-and-layout.md`](../implementation/01-architecture-and-layout.md) and the source [`10-repository-map.md`](../../10-repository-map.md). `apps/lab` is a Quasar composition root, `apps/chaos-api` is a Hono adapter, `contracts` owns schemas, `failure-scenarios` owns deterministic faults, `resilience-core` owns pure policies/ports, `telemetry` owns event projections. Cross-package deep imports/framework import in pure packages must be rejected in CI.
+`apps/lab` is the Quasar composition root and `apps/chaos-api` is the Hono adapter. `contracts` owns schemas, `failure-scenarios` owns deterministic faults, `resilience-core` owns pure policies and ports, and `telemetry` owns event projections. CI rejects cross-package deep imports and framework imports in pure packages.

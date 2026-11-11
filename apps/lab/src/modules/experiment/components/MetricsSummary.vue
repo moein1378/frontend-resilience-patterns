@@ -14,6 +14,11 @@ const amplification = computed(() =>
     ? 'N/A'
     : `${state.metrics.retryAmplification.toFixed(1)}×`,
 );
+const fingerprint = computed(() =>
+  state.snapshot
+    ? state.snapshot.operations.map(({ outcome, statusCode }) => statusCode ?? outcome).join(' · ')
+    : 'No completed run',
+);
 </script>
 
 <template>
@@ -43,6 +48,10 @@ const amplification = computed(() =>
         ><small>attempts / logical starts</small>
       </article>
     </div>
+    <p class="fingerprint mono">
+      Replay fingerprint:
+      <span data-testid="run-fingerprint">{{ fingerprint }}</span>
+    </p>
   </section>
 </template>
 
@@ -74,6 +83,14 @@ const amplification = computed(() =>
   color: var(--color-text);
   font-family: var(--font-display);
   font-size: 1.8rem;
+}
+.fingerprint {
+  margin: var(--space-3) 0 0;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+}
+.fingerprint span {
+  color: var(--color-text);
 }
 @media (max-width: 1023px) {
   .metric-grid {

@@ -39,8 +39,8 @@ const patterns = [
       <p class="eyebrow">Decision catalog · progressive implementation</p>
       <h1 class="page-title">Resilience patterns, with costs attached.</h1>
       <p class="lede">
-        Phase 01 supplies the failure harness and baseline evidence. Every protection remains
-        visibly gated until its own verified phase.
+        The failure harness now supports shared deadlines and bounded retries with jitter. Later
+        protections remain visibly gated until their own phase.
       </p>
     </header>
     <section class="pattern-grid section-gap" aria-label="Pattern catalog">
@@ -48,14 +48,24 @@ const patterns = [
         <q-badge outline color="orange">{{ pattern.phase }}</q-badge>
         <h2>{{ pattern.name }}</h2>
         <p>{{ pattern.risk }}</p>
-        <span class="mono">Preview only · not implemented</span>
+        <q-btn
+          v-if="pattern.phase === 'Phase 02'"
+          to="/retry-lab"
+          outline
+          color="primary"
+          no-caps
+          label="Open Retry Lab"
+        />
+        <span v-else class="mono">Preview only · not implemented</span>
       </article>
     </section>
     <section class="breaker-preview surface section-gap" aria-labelledby="breaker-preview-heading">
       <div>
         <p class="eyebrow">Circuit Breaker Console</p>
         <h2 id="breaker-preview-heading" class="panel-title">Phase 03 preview</h2>
-        <p>No breaker state, rolling window, cooldown, or half-open probe is active in v0.1.0.</p>
+        <p>
+          No breaker state, rolling window, cooldown, or half-open probe is active in this phase.
+        </p>
       </div>
       <q-btn
         to="/patterns/circuit-breaker/unprotected"

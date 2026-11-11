@@ -1,4 +1,4 @@
-# System context (planned implementation)
+# System context
 
 ```mermaid
 flowchart LR
@@ -11,4 +11,4 @@ flowchart LR
   Telemetry --> UI[Accessible timeline and metrics]
 ```
 
-The public Pages site does not require Local. See [`docs/implementation/01-architecture-and-layout.md`](../implementation/01-architecture-and-layout.md) for the proposed dependency DAG. This diagram is architectural intent, not a claim of implemented code.
+The public Pages site uses the deterministic browser adapter and does not require the local API.

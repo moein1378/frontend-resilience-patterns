@@ -1,3 +1,3 @@
-# Testing strategy (planned)
+# Testing strategy
 
-Fake clock + seeded RNG for pure algorithms; contract suite for browser/Hono adapter equivalence; negative invariant tests for unsafe mutations and cancellation; Playwright for reviewer-visible workflows; source of truth [`docs/implementation/08-acceptance-and-test-matrix.md`](../implementation/08-acceptance-and-test-matrix.md). Execution status remains **not run** until Codex implements and runs tests.
+Pure algorithms use a fake clock and seeded random-number generator. Contract tests verify browser and Hono adapter parity, invariant tests cover unsafe mutations and cancellation, and Playwright covers user-visible workflows.

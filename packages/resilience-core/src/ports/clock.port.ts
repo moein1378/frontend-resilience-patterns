@@ -9,14 +9,22 @@ export class SystemClock implements Clock {
   }
 
   sleep(delayMs: number, signal?: AbortSignal): Promise<void> {
-    if (signal?.aborted) return Promise.reject(new DOMException('Aborted', 'AbortError'));
+    if (signal?.aborted)
+      return Promise.reject(new DOMException("Aborted", "AbortError"));
     return new Promise((resolve, reject) => {
-      const timer = setTimeout(resolve, Math.max(0, delayMs));
+      const timer = setTimeout(
+        () => {
+          signal?.removeEventListener("abort", abort);
+          resolve();
+        },
+        Math.max(0, delayMs),
+      );
       const abort = () => {
         clearTimeout(timer);
-        reject(new DOMException('Aborted', 'AbortError'));
+        signal?.removeEventListener("abort", abort);
+        reject(new DOMException("Aborted", "AbortError"));
       };
-      signal?.addEventListener('abort', abort, { once: true });
+      signal?.addEventListener("abort", abort, { once: true });
     });
   }
 }

@@ -16,7 +16,7 @@ export {
   WorkloadCollectionSchema,
   WorkloadOperationSchema,
   WorkloadSchema,
-} from './schemas.js';
+} from "./schemas.js";
 export type {
   AttemptRequest,
   AttemptResponse,
@@ -28,4 +28,4 @@ export type {
   TraceEvent,
   TraceEventDraft,
   Workload,
-} from './schemas.js';
+} from "./schemas.js";
